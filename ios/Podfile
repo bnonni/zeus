@@ -39,6 +39,8 @@ target 'zeus' do
       target.build_configurations.each do |config|
         # Disable arm64 builds for the simulator
         config.build_settings['EXCLUDED_ARCHS[sdk=iphonesimulator*]'] = 'arm64'
+        config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12.4'
+        config.build_settings['CODE_SIGNING_ALLOWED'] = 'NO'
       end
     end
   end

@@ -17,6 +17,7 @@ import { themeColor } from './../utils/ThemeUtils';
 import ChannelsStore from './../stores/ChannelsStore';
 import FeeStore from './../stores/FeeStore';
 import SettingsStore from './../stores/SettingsStore';
+import AmountInput from './AmountInput';
 
 interface SetFeesFormProps {
     FeeStore: FeeStore;
@@ -35,6 +36,8 @@ interface SetFeesFormState {
     feesSubmitted: boolean;
     newBaseFee: string;
     newFeeRate: string;
+    feeRateSatAmount: string | number;
+    feeRateBtcAmount: string | number;
     newTimeLockDelta: string;
     newMinHtlc: string;
     newMaxHtlc: string;
@@ -137,36 +140,28 @@ export default class SetFeesForm extends React.Component<
                         autoCapitalize="none"
                         autoCorrect={false}
                     />
-
-                    <Text
-                        style={{
-                            ...styles.text,
-                            color: themeColor('secondaryText')
-                        }}
-                    >
-                        {`${localeString('components.SetFeesForm.feeRate')} (${
+                    <AmountInput
+                        amount={newFeeRate}
+                        title={`${localeString(
+                            'components.SetFeesForm.feeRate'
+                        )} (${
                             implementation === 'c-lightning-REST'
                                 ? localeString(
                                       'components.SetFeesForm.ppmMilliMsat'
                                   )
                                 : localeString('general.percentage')
                         })`}
-                    </Text>
-                    <TextInput
-                        keyboardType="numeric"
-                        placeholder={
-                            feeRate || implementation === 'c-lightning-REST'
-                                ? '1'
-                                : '0.001'
-                        }
-                        value={newFeeRate}
-                        onChangeText={(text: string) =>
+                        onAmountChange={(
+                            amount: string,
+                            feeRateSatAmount: string | number
+                        ) => {
+                            console.log('amount', amount);
+                            console.log('feeRateSatAmount', feeRateSatAmount);
                             this.setState({
-                                newFeeRate: text
-                            })
-                        }
-                        autoCapitalize="none"
-                        autoCorrect={false}
+                                newFeeRate: amount,
+                                feeRateSatAmount
+                            });
+                        }}
                     />
 
                     {BackendUtils.isLNDBased() && (
