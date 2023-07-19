@@ -1566,13 +1566,8 @@
 				CODE_SIGN_ENTITLEMENTS = zeus/zeus.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-<<<<<<< Updated upstream
 				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = 9ZKYDSMC5C;
-=======
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
->>>>>>> Stashed changes
 				ENABLE_BITCODE = NO;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				HEADER_SEARCH_PATHS = (
@@ -1617,13 +1612,8 @@
 				CODE_SIGN_ENTITLEMENTS = zeus/zeusRelease.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-<<<<<<< Updated upstream
 				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = 9ZKYDSMC5C;
-=======
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
->>>>>>> Stashed changes
 				ENABLE_BITCODE = NO;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				HEADER_SEARCH_PATHS = (
