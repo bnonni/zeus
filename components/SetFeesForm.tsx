@@ -17,7 +17,6 @@ import { themeColor } from './../utils/ThemeUtils';
 import ChannelsStore from './../stores/ChannelsStore';
 import FeeStore from './../stores/FeeStore';
 import SettingsStore from './../stores/SettingsStore';
-import AmountInput from './AmountInput';
 
 interface SetFeesFormProps {
     FeeStore: FeeStore;
@@ -61,6 +60,20 @@ export default class SetFeesForm extends React.Component<
             newMaxHtlc: props.maxHtlc || ''
         };
     }
+
+    /**
+        0.000001 => 500 mSAT     => 0.5 SAT
+        0.00001  => 5000 mSAT    => 5 SATs
+        0.0001   => 50000 mSAT   => 50 SATs
+        0.001    => 500000 mSAT  => 500 SATs
+        0.01     => 5000000 mSAT => 5000 SATs
+     */
+
+    onChangeUnits = () => {
+        const satAmount = getSatAmount(amount);
+        onAmountChange(amount, satAmount);
+        this.setState({ newFeeRate });
+    };
 
     render() {
         const {
@@ -140,28 +153,38 @@ export default class SetFeesForm extends React.Component<
                         autoCapitalize="none"
                         autoCorrect={false}
                     />
-                    <AmountInput
-                        amount={newFeeRate}
-                        title={`${localeString(
-                            'components.SetFeesForm.feeRate'
-                        )} (${
+
+                    <Text
+                        style={{
+                            ...styles.text,
+                            color: themeColor('secondaryText')
+                        }}
+                    >
+                        {`${localeString('components.SetFeesForm.feeRate')} (${
                             implementation === 'c-lightning-REST'
                                 ? localeString(
                                       'components.SetFeesForm.ppmMilliMsat'
                                   )
                                 : localeString('general.percentage')
                         })`}
-                        onAmountChange={(
-                            amount: string,
-                            feeRateSatAmount: string | number
-                        ) => {
-                            console.log('amount', amount);
-                            console.log('feeRateSatAmount', feeRateSatAmount);
+                    </Text>
+                    <TextInput
+                        keyboardType="numeric"
+                        placeholder={
+                            feeRate || implementation === 'c-lightning-REST'
+                                ? '1'
+                                : '0.001'
+                        }
+                        value={newFeeRate}
+                        onChangeText={(text: string) =>
                             this.setState({
-                                newFeeRate: amount,
-                                feeRateSatAmount
-                            });
-                        }}
+                                newFeeRate: text
+                            })
+                        }
+                        autoCapitalize="none"
+                        autoCorrect={false}
+                        suffix={'%'}
+                        toggleUnits={() => this.onChangeUnits()}
                     />
 
                     {BackendUtils.isLNDBased() && (
